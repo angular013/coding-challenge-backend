@@ -1,0 +1,134 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+// Define PostgreSQL datasource with environment variables
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Questionnaire {
+    uuid    String   @id @default(uuid())
+    name    String
+    pages   Page[]
+    users   User[]
+    results Result[]
+    created DateTime @default(now()) @map("created_date")
+    updated DateTime @updatedAt @map("updated_date")
+}
+
+model Page {
+    uuid            String        @id @default(uuid())
+    pageLevel       Int           @map("page_level")
+    questions       Question[]
+    questionnaire   Questionnaire @relation(fields: [questionnaireId], references: [uuid])
+    questionnaireId String        @map("questionnaire_id")
+    created         DateTime      @default(now()) @map("created_date")
+    updated         DateTime      @updatedAt @map("updated_date")
+}
+
+model Question {
+    uuid           String       @id @default(uuid())
+    question       String // The text of the question
+    page           Page         @relation(fields: [pageId], references: [uuid])
+    pageId         String       @map("page_id")
+    questiontype   QuestionType @relation(fields: [questionTypeId], references: [uuid])
+    questionTypeId String       @map("question_type_id")
+    answers        Answer[]
+    userInput      UserInput[]
+    created        DateTime     @default(now()) @map("created_date")
+    updated        DateTime     @updatedAt @map("updated_date")
+}
+
+model QuestionType {
+    uuid      String     @id @default(uuid())
+    name      String // Example: "Card" etc.
+    questions Question[]
+    created   DateTime   @default(now()) @map("created_date")
+    updated   DateTime   @updatedAt @map("updated_date")
+}
+
+model Answer {
+    uuid                 String                 @id @default(uuid())
+    value                String
+    question             Question               @relation(fields: [questionId], references: [uuid])
+    questionId           String
+    matrixRecommendation MatrixRecommendation[]
+    userInput            UserInput[]
+    created              DateTime               @default(now()) @map("created_date")
+    updated              DateTime               @updatedAt @map("updated_date")
+}
+
+model User {
+    uuid           String          @id @default(uuid())
+    username       String          @unique
+    password       String
+    questionnaires Questionnaire[]
+    results        Result[]
+    userRole       UserRole        @relation(fields: [userRoleId], references: [uuid])
+    userRoleId     String
+    created        DateTime        @default(now()) @map("created_date")
+    updated        DateTime        @updatedAt @map("updated_date")
+}
+
+model UserRole {
+    uuid    String   @id @default(uuid())
+    name    String // Can be USER or ADMIN
+    users   User[]
+    created DateTime @default(now()) @map("created_date")
+    updated DateTime @updatedAt @map("updated_date")
+}
+
+model MatrixRecommendation {
+    uuid      String   @id @default(uuid())
+    value     Float
+    product   Product  @relation(fields: [productId], references: [uuid])
+    answer    Answer   @relation(fields: [answerId], references: [uuid])
+    productId String   @map("product_id")
+    answerId  String   @map("answer_id")
+    created   DateTime @default(now()) @map("created_date")
+    updated   DateTime @updatedAt @map("updated_date")
+}
+
+model UserInput {
+    uuid       String   @id @default(uuid())
+    question   Question @relation(fields: [questionId], references: [uuid])
+    answer     Answer   @relation(fields: [answerId], references: [uuid])
+    userId     String   @map("user_id")
+    questionId String   @map("question_id")
+    answerId   String   @map("answer_id")
+    created    DateTime @default(now()) @map("created_date")
+    updated    DateTime @updatedAt @map("updated_date")
+}
+
+model Result {
+    uuid            String            @id @default(uuid())
+    user            User              @relation(fields: [userId], references: [uuid])
+    products        ProductOnResult[]
+    questionnaire   Questionnaire     @relation(fields: [questionnaireId], references: [uuid])
+    userId          String            @map("user_id")
+    questionnaireId String            @map("questionnaire_id")
+    created         DateTime          @default(now()) @map("created_date")
+    updated         DateTime          @updatedAt @map("updated_date")
+}
+
+model Product {
+    uuid                 String                 @id @default(uuid())
+    name                 String
+    shortDesciprtion     String                 @map("short_description")
+    matrixRecommendation MatrixRecommendation[]
+    results              ProductOnResult[]
+    created              DateTime               @default(now()) @map("created_date")
+    updated              DateTime               @updatedAt @map("updated_date")
+}
+
+// Junction table for Many to Many relationship
+model ProductOnResult {
+    product   Product @relation(fields: [productId], references: [uuid])
+    productId String  @map("product_id")
+    result    Result  @relation(fields: [resultId], references: [uuid])
+    resultId  String  @map("result_id")
+
+    @@id([productId, resultId]) // Composite primary key
+}

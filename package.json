@@ -1,0 +1,19 @@
+{
+  "name": "coding-challenge-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "As part of the recruitment process for a backend developer position, you are required to complete a coding challenge to assess your skills in our tech stack, microservices in a monorepo including relational database, REST with Node.js and Express, GraphQL. The challenge consists of three tasks focusing on different aspects of backend development.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "workspaces": [
+    "microservices/products",
+    "microservices/questionnaire",
+    "microservices/recommendations",
+    "microservices/userInput"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
