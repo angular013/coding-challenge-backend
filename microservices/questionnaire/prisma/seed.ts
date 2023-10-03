@@ -14,10 +14,10 @@ async function main() {
     await seedQuestionTypes();
     await seedQuestions();
     await seedAnswers();
-    await seedUserRoles();
-    await seedUsers();
-    await seedProducts();
-    await seedMatrix();
+    // await seedUserRoles();
+    // await seedUsers();
+    // await seedProducts();
+    // await seedMatrix();
 }
 
 main();

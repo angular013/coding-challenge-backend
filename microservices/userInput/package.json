@@ -1,5 +1,5 @@
 {
-  "name": "userinput",
+  "name": "@coding-challenge-backend/userinput",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

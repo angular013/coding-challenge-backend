@@ -11,15 +11,15 @@ const questionnaireData = [
 export async function seedQuestionnaire() {
     try {
         // Truncate existing data in this order due to foreign key constraints(delete all records)
-        await prisma.matrixRecommendation.deleteMany({});
-        await prisma.user.deleteMany({});
-        await prisma.userRole.deleteMany({});
+        // await prisma.matrixRecommendation.deleteMany({});
+        // await prisma.user.deleteMany({});
+        // await prisma.userRole.deleteMany({});
         await prisma.answer.deleteMany({});
         await prisma.question.deleteMany({});
         await prisma.questionType.deleteMany({});
         await prisma.page.deleteMany({});
         await prisma.questionnaire.deleteMany({});
-        await prisma.product.deleteMany({});
+        //await prisma.product.deleteMany({});
 
         console.log(`Seeding questionnaire...`);
         for (const data of questionnaireData) {
