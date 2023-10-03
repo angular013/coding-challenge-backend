@@ -1,0 +1,591 @@
+{
+	"info": {
+		"_postman_id": "65510082-713c-4343-978d-ee55132a1b6f",
+		"name": "FoxBaseMicroservices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2665823"
+	},
+	"item": [
+		{
+			"name": "questionnaireService",
+			"item": [
+				{
+					"name": "questionnaire",
+					"item": [
+						{
+							"name": "getAllQuestionnaires",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getAllQuestionnaires {\r\n    uuid\r\n    name\r\n    pages{\r\n        uuid\r\n        pageLevel\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getQuestionnaire",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getQuestionnaire(uuid: \"6440a9a0-50f9-45c5-ab1a-5960f2885d3a\") {\r\n    uuid\r\n    name\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createQuestionnaire",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  createQuestionnaire(input: { name: \"New Questionnaire Name\" }) {\r\n    uuid\r\n    name\r\n  }\r\n}\r\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateQuestionnaire",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  updateQuestionnaire(\r\n      input: { uuid: \"8364e970-615d-44a3-8431-58a5ba6b6744\", \r\n      name: \"Updated Questionnaire Name 01\"\r\n       }) {\r\n    uuid\r\n    name\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteQuestionnaire",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  deleteQuestionnaire(input: { uuid: \"6211f273-9de2-408e-9d17-cde6c8a3a2a3\" }) {\r\n    uuid\r\n    name\r\n  }\r\n}\r\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "page",
+					"item": [
+						{
+							"name": "getAllPages",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getAllPages {\r\n    uuid\r\n    pageLevel\r\n    questionnaire{\r\n        uuid\r\n        name\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getPage",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getPage(uuid: \"bd2dfff7-c532-4992-952d-d9e0b93ca0a3\") {\r\n    uuid\r\n    pageLevel\r\n    questionnaire{\r\n        uuid\r\n        name\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createPage",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  createPage(input: { pageLevel: 22, questionnaireUUID: \"6440a9a0-50f9-45c5-ab1a-5960f2885d3a\" }) {\r\n    uuid\r\n    pageLevel\r\n    questionnaire{\r\n        uuid\r\n        name\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updatePage",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  updatePage(\r\n      input: {  uuid: \"ef8011b2-3287-406c-bd38-8586dc91eae3\", \r\n                pageLevel: 13,\r\n       }) {\r\n    uuid\r\n    pageLevel\r\n    questionnaire{\r\n        uuid\r\n        name\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deletePage",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  deletePage(input: { uuid: \"5a880f41-0ec5-4e22-80ad-b5e67acbd345\" }) {\r\n    uuid\r\n    pageLevel\r\n    questionnaire{\r\n        uuid\r\n        name\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "questionType",
+					"item": [
+						{
+							"name": "getAllQuestionTypes",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getAllQuestionTypes {\r\n    uuid\r\n    name\r\n    questions{\r\n        uuid\r\n        question\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getQuestionType",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getQuestionType(uuid: \"deead68d-1625-4a13-8c70-bac08f19586e\") {\r\n    uuid\r\n    name\r\n    questions{\r\n        uuid\r\n        question\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createQuestionType",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  createQuestionType(input: { name: \"Radio\" }) {\r\n    uuid\r\n    name\r\n    questions{\r\n        uuid\r\n        question\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateQuestionType",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  updateQuestionType(input: {   uuid: \"cee61d89-3b57-4b56-b6c6-4fdd3516fc0e\", \r\n                                name: \"Radio02\" }) {\r\n    uuid\r\n    name\r\n    questions{\r\n        uuid\r\n        question\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteQuestionType",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  deleteQuestionType(input: {  uuid: \"cee61d89-3b57-4b56-b6c6-4fdd3516fc0e\"  }) {\r\n    uuid\r\n    name\r\n    questions{\r\n        uuid\r\n        question\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "question",
+					"item": [
+						{
+							"name": "getAllQuestions",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getAllQuestions {\r\n    uuid\r\n    question\r\n    page{\r\n        uuid\r\n        pageLevel\r\n    }\r\n    questiontype{\r\n        uuid\r\n        name\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getQuestion",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getQuestion(uuid: \"9e8a1e65-238b-45b6-bed7-70a12cc84d15\") {\r\n    uuid\r\n    question\r\n    page{\r\n        uuid\r\n        pageLevel\r\n    }\r\n    questiontype{\r\n        uuid\r\n        name\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createQuestion",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  createQuestion(input: {   question: \"Newly created question\",\r\n                            pageId: \"bd2dfff7-c532-4992-952d-d9e0b93ca0a3\",\r\n                            questionTypeId: \"2c171c25-de2f-4c2c-b131-0e1c2b19030c\" }) {\r\n    uuid\r\n    question\r\n    page{\r\n        uuid\r\n        pageLevel\r\n    }\r\n    questiontype{\r\n        uuid\r\n        name\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateQuestion",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  updateQuestion(input: {   question: \"Newly updated question\",\r\n                            uuid: \"396af73e-d6ad-4767-be19-afd9ecd4c21f\"} ) {\r\n    uuid\r\n    question\r\n    page{\r\n        uuid\r\n        pageLevel\r\n    }\r\n    questiontype{\r\n        uuid\r\n        name\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteQuestion",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  deleteQuestion(input: {  uuid: \"396af73e-d6ad-4767-be19-afd9ecd4c21f\"  }) {\r\n    uuid\r\n    question\r\n    page{\r\n        uuid\r\n        pageLevel\r\n    }\r\n    questiontype{\r\n        uuid\r\n        name\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "answer",
+					"item": [
+						{
+							"name": "getAllAnswers",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getAllAnswers {\r\n    uuid\r\n    value\r\n    question{\r\n        uuid\r\n        question\r\n    }\r\n\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAnswer",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getAnswer(uuid: \"474291f8-5608-410a-9893-e3032ee0691c\") {\r\n    uuid\r\n    value\r\n    question{\r\n        uuid\r\n        question\r\n    }\r\n\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createAnswer",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  createAnswer(input: { value: \"Answer 3 for question\",\r\n                        questionId: \"c0cab243-f4c6-4483-ade1-6f74ee485197\" }) {\r\n    uuid\r\n    value\r\n    question{\r\n        uuid\r\n        question\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateAnswer",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  updateAnswer(input: { value: \"Answer 3.0 for question\",\r\n                        uuid: \"df81b7ca-8070-4dce-91de-d52451e9dfd0\" }) {\r\n    uuid\r\n    value\r\n    question{\r\n        uuid\r\n        question\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteAnswer",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  deleteAnswer(input: { uuid: \"df81b7ca-8070-4dce-91de-d52451e9dfd0\" }) {\r\n    uuid\r\n    value\r\n    question{\r\n        uuid\r\n        question\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{questionnaire_microservice_url}}",
+									"host": [
+										"{{questionnaire_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "questionnaire_microservice_url",
+			"value": "http://localhost:4000/graphql"
+		}
+	]
+}
