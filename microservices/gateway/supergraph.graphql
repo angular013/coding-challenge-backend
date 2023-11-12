@@ -1,235 +1,263 @@
 schema
-  @link(url: "https://specs.apollo.dev/link/v1.0")
-  @link(url: "https://specs.apollo.dev/join/v0.3", for: EXECUTION)
+  @core(feature: "https://specs.apollo.dev/core/v0.2"),
+  @core(feature: "https://specs.apollo.dev/join/v0.1", for: EXECUTION)
 {
   query: Query
   mutation: Mutation
 }
 
-directive @join__enumValue(graph: join__Graph!) repeatable on ENUM_VALUE
+directive @core(as: String, feature: String!, for: core__Purpose) repeatable on SCHEMA
 
-directive @join__field(graph: join__Graph, requires: join__FieldSet, provides: join__FieldSet, type: String, external: Boolean, override: String, usedOverridden: Boolean) repeatable on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+directive @join__field(graph: join__Graph, provides: join__FieldSet, requires: join__FieldSet) on FIELD_DEFINITION
 
 directive @join__graph(name: String!, url: String!) on ENUM_VALUE
 
-directive @join__implements(graph: join__Graph!, interface: String!) repeatable on OBJECT | INTERFACE
+directive @join__owner(graph: join__Graph!) on INTERFACE | OBJECT
 
-directive @join__type(graph: join__Graph!, key: join__FieldSet, extension: Boolean! = false, resolvable: Boolean! = true, isInterfaceObject: Boolean! = false) repeatable on OBJECT | INTERFACE | UNION | ENUM | INPUT_OBJECT | SCALAR
-
-directive @join__unionMember(graph: join__Graph!, member: String!) repeatable on UNION
-
-directive @link(url: String, as: String, for: link__Purpose, import: [link__Import]) repeatable on SCHEMA
+directive @join__type(graph: join__Graph!, key: join__FieldSet) repeatable on INTERFACE | OBJECT
 
 type Answer
+  @join__owner(graph: QUESTIONNAIRE)
   @join__type(graph: QUESTIONNAIRE, key: "uuid")
 {
-  created: DateTime!
-  question: Question!
-  updated: DateTime!
-  uuid: ID!
-  value: String!
+  created: DateTime! @join__field(graph: QUESTIONNAIRE)
+  question: Question! @join__field(graph: QUESTIONNAIRE)
+  updated: DateTime! @join__field(graph: QUESTIONNAIRE)
+  uuid: ID! @join__field(graph: QUESTIONNAIRE)
+  value: String! @join__field(graph: QUESTIONNAIRE)
 }
 
-input CreateAnswerInput
-  @join__type(graph: QUESTIONNAIRE)
-{
-  value: String!
+input AnswerInput {
+  answerId: String
+  answerSelected: String
+}
+
+input CreateAnswerInput {
   questionId: String!
+  value: String!
 }
 
-input CreatePageInput
-  @join__type(graph: QUESTIONNAIRE)
-{
+input CreatePageInput {
   pageLevel: Int!
   questionnaireUUID: ID!
 }
 
-input CreateQuestionInput
-  @join__type(graph: QUESTIONNAIRE)
-{
-  question: String!
+input CreateQuestionInput {
   pageId: String!
+  question: String!
   questionTypeId: String!
 }
 
-input CreateQuestionnaireInput
-  @join__type(graph: QUESTIONNAIRE)
-{
+input CreateQuestionTypeInput {
   name: String!
 }
 
-input CreateQuestionTypeInput
-  @join__type(graph: QUESTIONNAIRE)
-{
+input CreateQuestionnaireInput {
   name: String!
+}
+
+input CreateUserInput {
+  pages: [PageInput!]!
+  questionnaireId: String!
+  userId: String!
 }
 
 scalar DateTime
-  @join__type(graph: QUESTIONNAIRE)
 
-input DeleteAnswerInput
-  @join__type(graph: QUESTIONNAIRE)
-{
+input DeleteAnswerInput {
   uuid: ID!
 }
 
-input DeletePageInput
-  @join__type(graph: QUESTIONNAIRE)
-{
+input DeletePageInput {
   uuid: ID!
 }
 
-input DeleteQuestionInput
-  @join__type(graph: QUESTIONNAIRE)
-{
+input DeleteQuestionInput {
   uuid: ID!
 }
 
-input DeleteQuestionnaireInput
-  @join__type(graph: QUESTIONNAIRE)
-{
+input DeleteQuestionTypeInput {
   uuid: ID!
 }
 
-input DeleteQuestionTypeInput
-  @join__type(graph: QUESTIONNAIRE)
-{
+input DeleteQuestionnaireInput {
   uuid: ID!
 }
 
-scalar join__FieldSet
-
-enum join__Graph {
-  QUESTIONNAIRE @join__graph(name: "questionnaire", url: "http://localhost:4010/graphql")
+input DeleteUserInput {
+  uuid: ID!
 }
 
-scalar link__Import
-
-enum link__Purpose {
-  """
-  `SECURITY` features provide metadata necessary to securely resolve fields.
-  """
-  SECURITY
-
-  """
-  `EXECUTION` features provide metadata necessary for operation execution.
-  """
-  EXECUTION
-}
-
-type Mutation
-  @join__type(graph: QUESTIONNAIRE)
-{
-  createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire!
-  deleteQuestionnaire(input: DeleteQuestionnaireInput!): Questionnaire!
-  updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire!
-  createPage(input: CreatePageInput!): Page!
-  deletePage(input: DeletePageInput!): Page!
-  updatePage(input: UpdatePageInput!): Page!
-  createQuestionType(input: CreateQuestionTypeInput!): QuestionType!
-  deleteQuestionType(input: DeleteQuestionTypeInput!): QuestionType!
-  updateQuestionType(input: UpdateQuestionTypeInput!): QuestionType!
-  createQuestion(input: CreateQuestionInput!): Question!
-  deleteQuestion(input: DeleteQuestionInput!): Question!
-  updateQuestion(input: UpdateQuestionInput!): Question!
-  createAnswer(input: CreateAnswerInput!): Answer!
-  deleteAnswer(input: DeleteAnswerInput!): Answer!
-  updateAnswer(input: UpdateAnswerInput!): Answer!
+type Mutation {
+  createAnswer(input: CreateAnswerInput!): Answer! @join__field(graph: QUESTIONNAIRE)
+  createPage(input: CreatePageInput!): Page! @join__field(graph: QUESTIONNAIRE)
+  createQuestion(input: CreateQuestionInput!): Question! @join__field(graph: QUESTIONNAIRE)
+  createQuestionType(input: CreateQuestionTypeInput!): QuestionType! @join__field(graph: QUESTIONNAIRE)
+  createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire! @join__field(graph: QUESTIONNAIRE)
+  createUserInput(input: [CreateUserInput!]!): [UserInput!]! @join__field(graph: USERINPUT)
+  deleteAnswer(input: DeleteAnswerInput!): Answer! @join__field(graph: QUESTIONNAIRE)
+  deletePage(input: DeletePageInput!): Page! @join__field(graph: QUESTIONNAIRE)
+  deleteQuestion(input: DeleteQuestionInput!): Question! @join__field(graph: QUESTIONNAIRE)
+  deleteQuestionType(input: DeleteQuestionTypeInput!): QuestionType! @join__field(graph: QUESTIONNAIRE)
+  deleteQuestionnaire(input: DeleteQuestionnaireInput!): Questionnaire! @join__field(graph: QUESTIONNAIRE)
+  deleteUserInput(input: DeleteUserInput!): UserInput! @join__field(graph: USERINPUT)
+  updateAnswer(input: UpdateAnswerInput!): Answer! @join__field(graph: QUESTIONNAIRE)
+  updatePage(input: UpdatePageInput!): Page! @join__field(graph: QUESTIONNAIRE)
+  updateQuestion(input: UpdateQuestionInput!): Question! @join__field(graph: QUESTIONNAIRE)
+  updateQuestionType(input: UpdateQuestionTypeInput!): QuestionType! @join__field(graph: QUESTIONNAIRE)
+  updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire! @join__field(graph: QUESTIONNAIRE)
+  updateUserInput(input: [UpdateUserInput!]!): [UserInput!]! @join__field(graph: USERINPUT)
 }
 
 type Page
+  @join__owner(graph: QUESTIONNAIRE)
   @join__type(graph: QUESTIONNAIRE, key: "uuid")
 {
-  created: DateTime!
-  pageLevel: Int!
-  questionnaire: Questionnaire!
-  questions: [Question]!
-  updated: DateTime!
-  uuid: ID!
+  created: DateTime! @join__field(graph: QUESTIONNAIRE)
+  pageLevel: Int! @join__field(graph: QUESTIONNAIRE)
+  questionnaire: Questionnaire! @join__field(graph: QUESTIONNAIRE)
+  questions: [Question]! @join__field(graph: QUESTIONNAIRE)
+  updated: DateTime! @join__field(graph: QUESTIONNAIRE)
+  uuid: ID! @join__field(graph: QUESTIONNAIRE)
 }
 
-type Query
-  @join__type(graph: QUESTIONNAIRE)
-{
-  getAllQuestionnaires: [Questionnaire!]!
-  getQuestionnaire(uuid: ID!): Questionnaire!
-  getAllPages: [Page!]!
-  getPage(uuid: ID!): Page!
-  getAllQuestionTypes: [QuestionType!]!
-  getQuestionType(uuid: ID!): QuestionType!
-  getAllQuestions: [Question!]!
-  getQuestion(uuid: ID!): Question!
-  getAllAnswers: [Answer!]!
-  getAnswer(uuid: ID!): Answer!
+input PageInput {
+  pageId: String
+  questions: [QuestionInput]
+}
+
+type Query {
+  getAllAnswers: [Answer!]! @join__field(graph: QUESTIONNAIRE)
+  getAllPages: [Page!]! @join__field(graph: QUESTIONNAIRE)
+  getAllQuestionTypes: [QuestionType!]! @join__field(graph: QUESTIONNAIRE)
+  getAllQuestionnaires: [Questionnaire!]! @join__field(graph: QUESTIONNAIRE)
+  getAllQuestions: [Question!]! @join__field(graph: QUESTIONNAIRE)
+  getAllUserInputs: [UserInput!]! @join__field(graph: USERINPUT)
+  getAllUsers: [User!]! @join__field(graph: USERINPUT)
+  getAnswer(uuid: ID!): Answer! @join__field(graph: QUESTIONNAIRE)
+  getPage(uuid: ID!): Page! @join__field(graph: QUESTIONNAIRE)
+  getQuestion(uuid: ID!): Question! @join__field(graph: QUESTIONNAIRE)
+  getQuestionType(uuid: ID!): QuestionType! @join__field(graph: QUESTIONNAIRE)
+  getQuestionnaire(uuid: ID!): Questionnaire! @join__field(graph: QUESTIONNAIRE)
+  getUser(uuid: ID!): User! @join__field(graph: USERINPUT)
+  getUserInput(uuid: ID!): UserInput! @join__field(graph: USERINPUT)
 }
 
 type Question
+  @join__owner(graph: QUESTIONNAIRE)
   @join__type(graph: QUESTIONNAIRE, key: "uuid")
 {
-  answers: [Answer]!
-  created: DateTime!
-  page: Page!
-  question: String!
-  questiontype: QuestionType!
-  updated: DateTime!
-  uuid: ID!
+  answers: [Answer]! @join__field(graph: QUESTIONNAIRE)
+  created: DateTime! @join__field(graph: QUESTIONNAIRE)
+  page: Page! @join__field(graph: QUESTIONNAIRE)
+  question: String! @join__field(graph: QUESTIONNAIRE)
+  questiontype: QuestionType! @join__field(graph: QUESTIONNAIRE)
+  updated: DateTime! @join__field(graph: QUESTIONNAIRE)
+  uuid: ID! @join__field(graph: QUESTIONNAIRE)
 }
 
-type Questionnaire
-  @join__type(graph: QUESTIONNAIRE, key: "uuid")
-{
-  created: DateTime!
-  name: String!
-  pages: [Page]
-  updated: DateTime!
-  uuid: ID!
+input QuestionInput {
+  answers: [AnswerInput]
+  questionId: String
 }
 
 type QuestionType
+  @join__owner(graph: QUESTIONNAIRE)
   @join__type(graph: QUESTIONNAIRE, key: "uuid")
 {
-  created: DateTime!
-  name: String!
-  questions: [Question]
-  updated: DateTime!
-  uuid: ID!
+  created: DateTime! @join__field(graph: QUESTIONNAIRE)
+  name: String! @join__field(graph: QUESTIONNAIRE)
+  questions: [Question] @join__field(graph: QUESTIONNAIRE)
+  updated: DateTime! @join__field(graph: QUESTIONNAIRE)
+  uuid: ID! @join__field(graph: QUESTIONNAIRE)
 }
 
-input UpdateAnswerInput
-  @join__type(graph: QUESTIONNAIRE)
+type Questionnaire
+  @join__owner(graph: QUESTIONNAIRE)
+  @join__type(graph: QUESTIONNAIRE, key: "uuid")
 {
-  value: String!
+  created: DateTime! @join__field(graph: QUESTIONNAIRE)
+  name: String! @join__field(graph: QUESTIONNAIRE)
+  pages: [Page] @join__field(graph: QUESTIONNAIRE)
+  updated: DateTime! @join__field(graph: QUESTIONNAIRE)
+  uuid: ID! @join__field(graph: QUESTIONNAIRE)
+}
+
+input UpdateAnswerInput {
   questionId: String
   uuid: ID!
+  value: String!
 }
 
-input UpdatePageInput
-  @join__type(graph: QUESTIONNAIRE)
-{
+input UpdatePageInput {
   pageLevel: Int
   questionnaireUUID: ID
   uuid: ID!
 }
 
-input UpdateQuestionInput
-  @join__type(graph: QUESTIONNAIRE)
-{
-  question: String
+input UpdateQuestionInput {
   pageId: String
+  question: String
   questionTypeId: String
   uuid: ID!
 }
 
-input UpdateQuestionnaireInput
-  @join__type(graph: QUESTIONNAIRE)
-{
+input UpdateQuestionTypeInput {
+  name: String!
+  uuid: ID!
+}
+
+input UpdateQuestionnaireInput {
   name: String
   uuid: ID!
 }
 
-input UpdateQuestionTypeInput
-  @join__type(graph: QUESTIONNAIRE)
+input UpdateUserInput {
+  pages: [PageInput!]!
+  questionnaireId: String
+  userId: String!
+}
+
+type User
+  @join__owner(graph: USERINPUT)
+  @join__type(graph: USERINPUT, key: "uuid")
 {
-  name: String!
-  uuid: ID!
+  password: String! @join__field(graph: USERINPUT)
+  userInput: [UserInput]! @join__field(graph: USERINPUT)
+  username: String! @join__field(graph: USERINPUT)
+  uuid: ID! @join__field(graph: USERINPUT)
+}
+
+type UserInput
+  @join__owner(graph: USERINPUT)
+  @join__type(graph: USERINPUT, key: "uuid")
+{
+  answerId: String! @join__field(graph: USERINPUT)
+  answerSelected: String! @join__field(graph: USERINPUT)
+  created: DateTime! @join__field(graph: USERINPUT)
+  pageId: String! @join__field(graph: USERINPUT)
+  questionId: String! @join__field(graph: USERINPUT)
+  questionnaireId: String! @join__field(graph: USERINPUT)
+  updated: DateTime! @join__field(graph: USERINPUT)
+  user: User! @join__field(graph: USERINPUT)
+  uuid: ID! @join__field(graph: USERINPUT)
+}
+
+enum core__Purpose {
+  """
+  `EXECUTION` features provide metadata necessary to for operation execution.
+  """
+  EXECUTION
+
+  """
+  `SECURITY` features provide metadata necessary to securely resolve fields.
+  """
+  SECURITY
+}
+
+scalar join__FieldSet
+
+enum join__Graph {
+  QUESTIONNAIRE @join__graph(name: "questionnaire" url: "http://localhost:4010/graphql")
+  USERINPUT @join__graph(name: "userInput" url: "http://localhost:4020/graphql")
 }

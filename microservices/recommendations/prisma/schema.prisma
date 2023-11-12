@@ -1,0 +1,49 @@
+generator client {
+    provider = "prisma-client-js"
+    output   = "generated/clientRecommendation"
+}
+
+// Define PostgreSQL datasource with environment variables
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model MatrixRecommendation {
+    uuid      String   @id @default(uuid())
+    value     Float
+    product   Product  @relation(fields: [productId], references: [uuid])
+    productId String   @map("product_id")
+    answerId  String   @map("answer_id")
+    created   DateTime @default(now()) @map("created_date")
+    updated   DateTime @updatedAt @map("updated_date")
+}
+
+model Product {
+    uuid                 String                 @id @default(uuid())
+    name                 String
+    shortDesciprtion     String                 @map("short_description")
+    matrixRecommendation MatrixRecommendation[]
+    results              ProductOnResult[]
+    created              DateTime               @default(now()) @map("created_date")
+    updated              DateTime               @updatedAt @map("updated_date")
+}
+
+model Result {
+    uuid            String            @id @default(uuid())
+    products        ProductOnResult[]
+    userId          String            @map("user_id")
+    questionnaireId String            @map("questionnaire_id")
+    created         DateTime          @default(now()) @map("created_date")
+    updated         DateTime          @updatedAt @map("updated_date")
+}
+
+// Junction table for Many to Many relationship
+model ProductOnResult {
+    product   Product @relation(fields: [productId], references: [uuid])
+    productId String  @map("product_id")
+    result    Result  @relation(fields: [resultId], references: [uuid])
+    resultId  String  @map("result_id")
+
+    @@id([productId, resultId]) // Composite primary key
+}

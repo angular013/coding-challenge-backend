@@ -1,4 +1,4 @@
-import { Answer } from '@prisma/client';
+import { Answer } from '../../../prisma/generated/clientQuestionnaire';
 
 const answerQueries = {
     Query: {

@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '../prisma/generated/clientQuestionnaire';
 import { ExpressContext } from "apollo-server-express/dist/ApolloServer";
 import { Request, Response } from "express";
 import { prisma } from "./clients";

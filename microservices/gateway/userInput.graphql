@@ -1,0 +1,68 @@
+# extend schema @link(url: "https://specs.apollo.dev/federation/v2.1", import: ["@key", "@shareable"])
+
+scalar DateTime
+
+input AnswerInput {
+  answerId: String
+  answerSelected: String
+}
+
+input QuestionInput {
+  questionId: String
+  answers: [AnswerInput]
+}
+
+input PageInput {
+  pageId: String
+  questions: [QuestionInput]
+}
+
+input CreateUserInput {
+  questionnaireId: String!
+  userId: String!
+  pages: [PageInput!]!
+}
+
+input UpdateUserInput {
+  questionnaireId: String
+  userId: String!
+  pages: [PageInput!]!
+}
+
+input DeleteUserInput {
+  uuid: ID!
+}
+
+type User @key(fields: "uuid") {
+  uuid: ID!
+  username: String!
+  password: String!
+  userInput: [UserInput]!
+}
+
+type UserInput @key(fields: "uuid") {
+  uuid: ID!
+  questionnaireId: String!
+  user: User!
+  pageId: String!
+  questionId: String!
+  answerId: String!
+  answerSelected: String!
+  created: DateTime!
+  updated: DateTime!
+}
+
+
+type Mutation {
+  createUserInput(input: [CreateUserInput!]!): [UserInput!]!
+  updateUserInput(input: [UpdateUserInput!]!): [UserInput!]!
+  deleteUserInput(input: DeleteUserInput!): UserInput!
+}
+
+type Query {
+  getAllUserInputs: [UserInput!]!
+  getUserInput(uuid: ID!): UserInput!
+
+  getAllUsers: [User!]!
+  getUser(uuid: ID!): User!
+}

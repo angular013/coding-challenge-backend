@@ -1,4 +1,4 @@
-import { QuestionType } from "@prisma/client";
+import { QuestionType } from '../../../prisma/generated/clientQuestionnaire';
 
 const questionTypeMutations = {
   Mutation: {

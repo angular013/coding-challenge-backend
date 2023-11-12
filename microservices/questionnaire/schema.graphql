@@ -1,4 +1,4 @@
-extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable"])
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.1", import: ["@key", "@shareable"])
 
 scalar DateTime
 
@@ -103,7 +103,7 @@ type QuestionType @key(fields: "uuid") {
   uuid: ID!
 }
 
-type Questionnaire @key(fields: "uuid") @shareable {
+type Questionnaire @key(fields: "uuid") {
   created: DateTime!
   name: String!
   pages: [Page]

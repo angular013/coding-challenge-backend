@@ -1,11 +1,12 @@
 import './open-telemetry'; // Import the OpenTelemetry configuration
 import { ApolloGateway, IntrospectAndCompose } from '@apollo/gateway';
 import { ApolloServerPluginDrainHttpServer , ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer } from '@apollo/server';
 import express from "express";
 import http from "http";
 import { readFileSync } from 'fs';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import { BaseContext } from '@apollo/server';
 
 
 
@@ -17,55 +18,52 @@ const prodOrigins = [/^https:\/\/.*\.yourdomain\.com$/];
 
 const gateway = new ApolloGateway({
     supergraphSdl,
-    // supergraphSdl: new IntrospectAndCompose({
-    //     subgraphs: [
-    //       { name: 'questionnaire', url: 'http://localhost:4010/graphql' },
-    //       // ...additional subgraphs...
-    //     ],
-    //   }),
-    // serviceList: [
-    //     {
-    //       name: 'questionnaire',
-    //       url: "http://localhost:4010/graphql",
-    //     },
-    // ],
 });
+
+const myPlugin = {
+    // Fires whenever a GraphQL request is received from a client.
+    async requestDidStart(requestContext: any) {
+      console.log('Request started! Query:\n' + requestContext.request.query);
+  
+      return {
+        // Fires whenever Apollo Server will parse a GraphQL
+        // request to create its associated document AST.
+        async parsingDidStart(requestContext: any) {
+          console.log('Parsing started!');
+        },
+  
+        // Fires whenever Apollo Server will validate a
+        // request's document AST against your GraphQL schema.
+        async validationDidStart(requestContext: any) {
+          console.log('Validation started!');
+          console.log(requestContext.request)
+        },
+      };
+    },
+  };
 
 async function startApolloServer() {
 	const app = express();
 	const httpServer = http.createServer(app);
 	const server = new ApolloServer({
-		gateway,
-		plugins: [
-			ApolloServerPluginDrainHttpServer({ httpServer }),
-			ApolloServerPluginLandingPageGraphQLPlayground()
-		],
-		debug: true,
-        context: ({ req }) => {
-            // You can log information related to the incoming request here
-            //console.log(`Received request: ${req.method} ${req.url} ${req.body}`);
-            // Other context setup...
+      gateway,
+      plugins: [myPlugin],
         
-            return {};
-          },
 	});
-	await server.start();
 
-	//app.use(cookieParser())
-
-	server.applyMiddleware({ 
-		app,
-		cors: {
-			origin: IS_DEV ? localOrigins : prodOrigins,
-			credentials: true,
-		},
-	});
-	await new Promise<void>((resolve) => {
-        httpServer.listen({ port: 4000 })
-        resolve()
-    });
-	console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 }
 
-// Start server
-startApolloServer()
+async function startApolloServer02() {
+    const server = new ApolloServer({ 
+      gateway, 
+      });
+    const { url } = await startStandaloneServer(server, {
+      context: async ({ req }) => ({ token: req.headers.token }),
+      listen: { port: 4000 },
+    });
+  
+  console.log(`🚀  Server ready at ${url}`);
+  }
+  
+  startApolloServer02();
+

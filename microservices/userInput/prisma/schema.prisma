@@ -1,0 +1,61 @@
+generator client {
+    provider = "prisma-client-js"
+    output   = "generated/clientUserInput"
+}
+
+// Define PostgreSQL datasource with environment variables
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+
+model User {
+    uuid           String          @id @default(uuid())
+    username       String          @unique
+    password       String
+    //questionnaires Questionnaire[]
+    //results        Result[]
+    userInput      UserInput[]
+    userQuestionnaire      UserOnQuestionnaire[]
+    userRole       UserRole        @relation(fields: [userRoleId], references: [uuid])
+    userRoleId     String
+    created        DateTime        @default(now()) @map("created_date")
+    updated        DateTime        @updatedAt @map("updated_date")
+}
+
+// Junction table for Many to Many relationship
+model UserOnQuestionnaire {
+    user   User @relation(fields: [userId], references: [uuid])
+    userId String  @map("user_id")
+    //questionnaire    Questionnaire  @relation(fields: [questionnaireId], references: [uuid])
+    questionnaireId  String  @map("questionnaire_id")
+
+    @@id([userId, questionnaireId]) // Composite primary key
+}
+
+
+model UserRole {
+    uuid    String   @id @default(uuid())
+    name    String // Can be USER or ADMIN
+    users   User[]
+    created DateTime @default(now()) @map("created_date")
+    updated DateTime @updatedAt @map("updated_date")
+}
+
+model UserInput {
+    uuid       String   @id @default(uuid())
+    user   User @relation(fields: [userId], references: [uuid])
+    //question   Question @relation(fields: [questionId], references: [uuid])
+    //answer     Answer   @relation(fields: [answerId], references: [uuid])
+    questionnaireId  String  @map("questionnaire_id")
+    userId     String   @map("user_id")
+    pageId     String   @map("page_id")
+    questionId String   @map("question_id")
+    answerId   String   @map("answer_id")
+    answerSelected String   @map("answer_selected")
+    created    DateTime @default(now()) @map("created_date")
+    updated    DateTime @updatedAt @map("updated_date")
+
+    @@unique([questionnaireId, userId, answerId], name: "questionnaire_user_answer")
+}

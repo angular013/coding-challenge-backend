@@ -1,4 +1,4 @@
-import { Page } from '@prisma/client';
+import { Page } from '../../../prisma/generated/clientQuestionnaire';
 
 const pageQueries = {
     Query: {

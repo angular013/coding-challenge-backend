@@ -1,4 +1,4 @@
-import { Question } from "@prisma/client";
+import { Question } from '../../../prisma/generated/clientQuestionnaire';
 
 const questionReference = {
     Question: {
