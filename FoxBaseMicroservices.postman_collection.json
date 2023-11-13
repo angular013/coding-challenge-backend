@@ -15,8 +15,17 @@
 						{
 							"name": "getAllQuestionnaires",
 							"request": {
+								"auth": {
+									"type": "noauth"
+								},
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "token",
+										"value": "adminTokenPassword",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "graphql",
 									"graphql": {
@@ -41,7 +50,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "query {\r\n  getQuestionnaire(uuid: \"6440a9a0-50f9-45c5-ab1a-5960f2885d3a\") {\r\n    uuid\r\n    name\r\n  }\r\n}",
+										"query": "query {\r\n  getQuestionnaire(uuid: \"ef7663c0-8da4-4191-bbdf-599ef38f335a\") {\r\n    uuid\r\n    name\r\n  }\r\n}",
 										"variables": ""
 									}
 								},
@@ -116,6 +125,36 @@
 								}
 							},
 							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "adminTokenPassword",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
 						}
 					]
 				},
@@ -559,6 +598,186 @@
 						}
 					]
 				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "adminTokenPassword",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "UserInputService",
+			"item": [
+				{
+					"name": "userInput",
+					"item": [
+						{
+							"name": "createUserInput",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation  {\r\n  createUserInput(input: [\r\n    { \r\n      questionnaireId: \"ef7663c0-8da4-4191-bbdf-599ef38f335a\",\r\n      userId: \"f46ab5e9-4531-4714-b746-7f20b981c7af\" ,\r\n      pages: [\r\n          {\r\n              pageId: \"425650aa-52d0-4474-afb5-b3b217d6f93d\"\r\n              questions: [\r\n                  {\r\n                      questionId: \"2240ad80-93f0-4b8e-9285-496c30579c0d\"\r\n                      answers: [\r\n                        {\r\n                          answerId: \"c2e69c40-0406-433e-ab70-e45bd3493b3e\"\r\n                          answerSelected: \"no\"\r\n                        },\r\n                        {\r\n                          answerId: \"6675cfaa-5356-41d5-8ab6-64c8f3b96d80\",\r\n                          answerSelected: \"yes\"\r\n                        }\r\n                      ]\r\n                  }\r\n              ]\r\n          },\r\n      ],\r\n\r\n    },\r\n\r\n  ]) {\r\n    uuid\r\n    questionnaireId\r\n    user {\r\n        uuid\r\n        username\r\n    }\r\n    pageId\r\n    questionId\r\n    answerId\r\n    answerSelected\r\n    created\r\n    updated\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{userInput_microservice_url}}",
+									"host": [
+										"{{userInput_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateUserInput",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation  {\r\n  updateUserInput(input: [\r\n    { \r\n      questionnaireId: \"ef7663c0-8da4-4191-bbdf-599ef38f335a\",\r\n      userId: \"f46ab5e9-4531-4714-b746-7f20b981c7af\" ,\r\n      pages: [\r\n          {\r\n              pageId: \"425650aa-52d0-4474-afb5-b3b217d6f93d\"\r\n              questions: [\r\n                  {\r\n                      questionId: \"2240ad80-93f0-4b8e-9285-496c30579c0d\"\r\n                      answers: [\r\n                        {\r\n                          answerId: \"c2e69c40-0406-433e-ab70-e45bd3493b3e\"\r\n                          answerSelected: \"yes\"\r\n                        },\r\n                        {\r\n                          answerId: \"6675cfaa-5356-41d5-8ab6-64c8f3b96d80\",\r\n                          answerSelected: \"yes\"\r\n                        }\r\n                      ]\r\n                  }\r\n              ]\r\n          },\r\n      ],\r\n\r\n    },\r\n\r\n  ]) {\r\n    uuid\r\n    questionnaireId\r\n    user {\r\n        uuid\r\n        username\r\n    }\r\n    pageId\r\n    questionId\r\n    answerId\r\n    answerSelected\r\n    created\r\n    updated\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{userInput_microservice_url}}",
+									"host": [
+										"{{userInput_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteUserInput",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  deleteUserInput(input: {  uuid: \"db657e69-d1b8-4686-986d-0e2fa7088476\"  }) {\r\n    uuid\r\n    questionnaireId\r\n    user {\r\n        uuid\r\n        username\r\n    }\r\n    pageId\r\n    questionId\r\n    answerId\r\n    answerSelected\r\n    created\r\n    updated\r\n  }\r\n}",
+										"variables": ""
+									}
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllUserInputs",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getAllUserInputs {\r\n    uuid\r\n    questionnaireId\r\n    user {\r\n        uuid\r\n        username\r\n    }\r\n    pageId\r\n    questionId\r\n    answerId\r\n    answerSelected\r\n    created\r\n    updated\r\n\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{userInput_microservice_url}}",
+									"host": [
+										"{{userInput_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getUserInput",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getUserInput(uuid: \"381b758d-7cc6-49a4-ae9b-7801bc436c89\") {\r\n    uuid\r\n    questionnaireId\r\n    user {\r\n        uuid\r\n        username\r\n    }\r\n    pageId\r\n    questionId\r\n    answerId\r\n    answerSelected\r\n    created\r\n    updated\r\n  }\r\n}",
+										"variables": ""
+									}
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "getAllUsers",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getAllUsers {\r\n    uuid\r\n    username\r\n    password\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{userInput_microservice_url}}",
+									"host": [
+										"{{userInput_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getUser",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getUser(uuid: \"16196bde-0ba3-4d8e-88de-ef938fb5581b\") {\r\n    uuid\r\n    username\r\n    password\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{userInput_microservice_url}}",
+									"host": [
+										"{{userInput_microservice_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
 			]
 		}
 	],
@@ -586,6 +805,11 @@
 		{
 			"key": "questionnaire_microservice_url",
 			"value": "http://localhost:4000/graphql"
+		},
+		{
+			"key": "userInput_microservice_url",
+			"value": "http://localhost:4000/graphql",
+			"type": "string"
 		}
 	]
 }
