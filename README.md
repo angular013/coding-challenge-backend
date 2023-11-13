@@ -14,10 +14,21 @@ The services are structured using npm workspaces for monorepo structure.
 
 All the **prisma models** are defined in the prisma folder inside the file **schema.prisma**
 
+4) Run the following command to build and run 
+
+`npm run dev`
+
 
 ## Microservices
 
-1) Questionnaire
-3) UserInput
-4) Recommendations ( products table added in this to save time instead of seperate products microservice )
-5) Gateway
+1) **Questionnaire** (GraphQL based)
+3) **UserInput** (GraphQL based)
+4) **Recommendations** ( products table added in this to save time instead of seperate products microservice )
+   
+   Simple **Express REST APIs** which are accessed by the **UserInput microservice** 
+6) **Gateway**
+   
+
+## GraphQL
+
+In the service root **schema.graphql** file containes the graphQL schema definitions and the **resolvers** folder inside the **src** folder containes code for **queries** and **mutations**
